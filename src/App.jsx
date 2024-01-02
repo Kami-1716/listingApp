@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ForgotPassword, Home, Offers, Profile, SignIn, SignUp } from "./pages";
+import { Footer, Header } from "./components";
 
 
 function App() {
   return (
     <BrowserRouter>
+    <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
@@ -13,6 +15,7 @@ function App() {
         <Route path="/offers" element={<Offers />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
+      
     </BrowserRouter>
   );
 }
