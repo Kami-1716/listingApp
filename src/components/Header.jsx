@@ -18,7 +18,7 @@ function Header() {
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  `block pr-1 pl-1 py-3 duration-200 font-semibold
+                  `block pr-1 pl-1 py-4 duration-200 font-semibold
                   ${
                     isActive
                       ? "text-blue-700 border-b-[3px] border-blue-700"
@@ -34,7 +34,7 @@ function Header() {
               <NavLink
                 to="offers"
                 className={({ isActive }) =>
-                  `block py-3 pr-1 pl-1 duration-200 font-semibold
+                  `block py-4 pr-1 pl-1 duration-200 font-semibold
                   ${
                     isActive
                       ? "text-blue-700 border-b-[3px] border-blue-700"
@@ -50,7 +50,7 @@ function Header() {
               <NavLink
                 to="sign-in"
                 className={({ isActive }) =>
-                  `block py-3 pr-1 pl-1 duration-200 font-semibold
+                  `block py-4 pr-1 pl-1 duration-200 font-semibold
                   ${
                     isActive
                       ? "text-blue-700 border-b-[3px] border-blue-700"
