@@ -12,22 +12,16 @@ const SignIn = () => {
   });
 
   const { email, password } = formData;
-
   const navigate = useNavigate()
-
   const signInFormHandler = async(e) => {
     e.preventDefault();
     try {
-      
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password)
-      toast.success("Signed In Successfully")
       navigate("/")
-
     } catch (error) {
       toast.error(error.message)
     }
-
   }
 
   return (

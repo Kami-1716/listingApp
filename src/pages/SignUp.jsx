@@ -12,13 +12,11 @@ const SignUp = () => {
     email: "",
     password: "",
   });
-
   const {fullName, email, password } = formData
   const navigate = useNavigate()
 
   const  signUpFormHandler = async (e) => {
     e.preventDefault();
-    
     try {
       const auth = getAuth();
       const userCredential =  await createUserWithEmailAndPassword(auth, email, password)
@@ -28,7 +26,6 @@ const SignUp = () => {
       delete formDataCopy.password
       formDataCopy.timestamp = serverTimestamp()
       await setDoc(doc(db, "users", user.uid), formDataCopy)
-      toast.success("Signed Up Successfully")
       navigate("/")
     } catch (error) {
       toast.error(error.message)
