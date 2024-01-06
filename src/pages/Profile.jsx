@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
 
 const Profile = () => {
@@ -30,7 +30,32 @@ const Profile = () => {
     } catch (error) {
       toast.error(error.message);
     }
+  }
 
+  const updateUserData = async () => {
+    try {
+      const auth = getAuth();
+      if(auth.currentUser.displayName === fullName) return
+      if(auth.currentUser.displayName !== fullName){
+        // to update the user profile in firebase
+        await updateProfile(auth.currentUser, {
+          displayName: fullName
+        })
+        toast.success("Profile Updated Successfully")
+      }
+
+      if(auth.currentUser.email === email) return
+      if(auth.currentUser.email !== email){
+        // to update the user profile in firebase
+        await updateProfile(auth.currentUser, {
+          email
+        })
+        toast.success("Profile Updated Successfully")
+      }
+
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   return (
@@ -45,22 +70,31 @@ const Profile = () => {
               id="fullName"
               value={fullName}
               placeholder="Email"
-              disabled
-              className=" rounded-sm px-4 w-full py-2 text-xl border border-gray-400 transition duration-200 ease-in-out focus:outline-none"
+              disabled = {!isEditable}
+              onChange={(e) => setFullName(e.target.value)}
+              className={`rounded-sm px-4 w-full py-2 text-xl border border-gray-400 transition duration-200 ease-in-out focus:outline-none ${!isEditable && "bg-gray-200"}`}
             />
             <input
               type="email"
               id="email"
               value={email}
-              disabled
+              disabled = {!isEditable}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
-              className="rounded-sm px-4 w-full py-2 text-xl border border-gray-400 transition duration-200 ease-in-out focus:outline-none mt-4"
+              className={`rounded-sm px-4 w-full py-2 text-xl border border-gray-400 transition duration-200 ease-in-out focus:outline-none mt-4 ${!isEditable && "bg-gray-200"}`}
             />
 
             <div className="flex justify-between mt-6 whitespace-nowrap text-sm sm:text-lg">
               <p>
                 Want To Change Your Name?{" "}
-                <Link className="text-red-500 hover:text-red-600">Edit</Link>
+                <Link className="text-red-500 hover:text-red-600"
+                onClick={()=> {
+                  isEditable && updateUserData()
+                  setIsEditable((prev) => !prev)
+                }}
+                >
+                  {isEditable ? "Apply Changes" : "Edit"}
+                  </Link>
               </p>
               <p>
                 {" "}
