@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
+import { FcHome } from "react-icons/fc";
 
 const Profile = () => {
   const [email, setEmail] = useState("");
@@ -63,7 +64,7 @@ const Profile = () => {
       <h1 className="text-3xl font-bold text-center mt-7">My Profile</h1>
 
       <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto ">
-        <div className="w-full md:w-[67%] lg:w-[40%] ">
+        <div className="w-full md:w-[50%] ">
           <form>
             <input
               type="text"
@@ -93,7 +94,7 @@ const Profile = () => {
                   setIsEditable((prev) => !prev)
                 }}
                 >
-                  {isEditable ? "Apply Changes" : "Edit"}
+                  {isEditable ? "Update" : "Edit"}
                   </Link>
               </p>
               <p>
@@ -106,7 +107,17 @@ const Profile = () => {
               </p>
             </div>
           </form>
+          <Link
+          type="submit"
+          to="/create-listing"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded mt-6 w-full flex justify-center items-center"
+          >
+            <FcHome
+            className="mr-2 rounded-full text-2xl"
+            /> Sell or Rent Your Home
+          </Link>
         </div>
+        
       </div>
     </section>
   );

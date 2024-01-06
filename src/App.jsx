@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ForgotPassword, Home, Offers, Profile, SignIn, SignUp } from "./pages";
+import { CreateListing, ForgotPassword, Home, Offers, Profile, SignIn, SignUp } from "./pages";
 import { Footer, Header, PrivateRoute } from "./components";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,6 +18,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/create-listing" element={<CreateListing />} />
         </Routes>
       </BrowserRouter>
 
@@ -33,6 +34,7 @@ function App() {
         pauseOnHover
         theme="dark"
         />
+        
     </>
   );
 }
