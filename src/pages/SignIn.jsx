@@ -17,8 +17,11 @@ const SignIn = () => {
     e.preventDefault();
     try {
       const auth = getAuth();
-      await signInWithEmailAndPassword(auth, email, password)
-      navigate("/")
+      const userCredential =  await signInWithEmailAndPassword(auth, email, password)
+      if(userCredential.user){
+        navigate("/")
+      }
+      
     } catch (error) {
       toast.error(error.message)
     }

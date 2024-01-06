@@ -28,7 +28,7 @@ const GoogleAuth = () => {
       // navigate to home page
       naivgate("/");
     } catch (error) {
-      toast.error(error.message);
+      toast.error("Something went wrong!");
     }
   };
 
