@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleAuth from "../components/GoogleAuth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
 
 
 const SignIn = () => {
@@ -10,6 +12,23 @@ const SignIn = () => {
   });
 
   const { email, password } = formData;
+
+  const navigate = useNavigate()
+
+  const signInFormHandler = async(e) => {
+    e.preventDefault();
+    try {
+      
+      const auth = getAuth();
+      await signInWithEmailAndPassword(auth, email, password)
+      toast.success("Signed In Successfully")
+      navigate("/")
+
+    } catch (error) {
+      toast.error(error.message)
+    }
+
+  }
 
   return (
     <section className="">
@@ -24,7 +43,9 @@ const SignIn = () => {
           />
         </div>
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form className="">
+          <form 
+          onSubmit={signInFormHandler}
+          >
             <input
               type="email"
               id="email"

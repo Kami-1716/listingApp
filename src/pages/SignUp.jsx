@@ -1,6 +1,10 @@
 import React, {useState} from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleAuth from "../components/GoogleAuth";
+import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+import { db } from '../firebase/firebase';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +13,27 @@ const SignUp = () => {
     password: "",
   });
 
-  const {fullName, email, password } = formData;
+  const {fullName, email, password } = formData
+  const navigate = useNavigate()
+
+  const  signUpFormHandler = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const auth = getAuth();
+      const userCredential =  await createUserWithEmailAndPassword(auth, email, password)
+      await updateProfile(auth.currentUser, {displayName: fullName})
+      const user = userCredential.user;
+      const formDataCopy = {...formData}
+      delete formDataCopy.password
+      formDataCopy.timestamp = serverTimestamp()
+      await setDoc(doc(db, "users", user.uid), formDataCopy)
+      toast.success("Signed Up Successfully")
+      navigate("/")
+    } catch (error) {
+      toast.error(error.message)
+    }
+  };
 
   return (
     <section className="">
@@ -24,7 +48,9 @@ const SignUp = () => {
           />
         </div>
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form className="">
+          <form 
+          onSubmit={signUpFormHandler}
+          >
             <input
               type="text"
               id="fullName"
