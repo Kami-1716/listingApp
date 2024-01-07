@@ -69,11 +69,10 @@ const CreateListing = () => {
       geoLocation.lat = latitude
       geoLocation.lang = longitude
     }
-
+    const auth = getAuth()
     const storeImage = async (image) => {
       
       return new Promise((resolve, reject) => {
-        const auth = getAuth()
         const storage = getStorage()
         const storageRef = ref(storage, `${auth.currentUser.uid}-${image.name}-${uuidv4()}`)
         const uplaodTask = uploadBytesResumable(storageRef, image)
@@ -112,6 +111,7 @@ const CreateListing = () => {
       imgUrls, 
       geoLocation, 
       timestamp: serverTimestamp(),
+      userRef : auth.currentUser.uid
     }
     delete formDataCopy.images
     delete formDataCopy.latitude
