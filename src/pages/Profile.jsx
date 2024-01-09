@@ -4,7 +4,7 @@ import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
 import { FcHome } from "react-icons/fc";
 import { ListingItem, Spinner } from "../components";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 const Profile = () => {
@@ -86,7 +86,24 @@ const Profile = () => {
     }
     fetchUserListings()
   }, [auth.currentUser.uid])
-  console.log(listings)
+
+  const onDelete = (id) => async () => {
+    if(window.confirm("Are you sure you want to delete this listing?")) {
+      try {
+        await deleteDoc(doc(db, "listings", id))
+        const newListing = listings.filter(listing => listing.id !== id)
+        setListings(newListing)
+        toast.success("Listing deleted successfully")
+      } catch (error) {
+        toast.error(error.message)
+        console.log(error)
+      }
+    }}
+
+  const onUpdate = (id) => () => {
+    navigate(`/update-listing/${id}`)
+
+  }
   return (
     <>
       <section className="">
@@ -159,7 +176,9 @@ const Profile = () => {
               <ListingItem
                 key={listing.id}
                 id={listing.id}
-                listing={listing.data} />
+                listing={listing.data}
+                onDelete={onDelete(listing.id)} 
+                onUpdate={onUpdate(listing.id)} />
             ))}
           </ul>
         </>

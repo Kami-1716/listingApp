@@ -2,8 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import { MdLocationOn } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 
-const ListingItem = ({ id, listing }) => {
+const ListingItem = ({ id, listing, onDelete, onUpdate }) => {
 
   const date = listing.timestamp.toDate()
   return (
@@ -38,6 +40,18 @@ const ListingItem = ({ id, listing }) => {
             </div>
           </div>
         </Link>
+        <div className='flex justify-end w-full px-2 py-1 gap-x-3 absolute right-3 bottom-1'>
+          {onUpdate && (
+            <button onClick={onUpdate} className='text-blue-500 hover:text-blue-600'>
+            <MdEdit className='h-6 w-6' />
+          </button>
+          )}
+          {onDelete && (
+            <button onClick={onDelete} className='text-red-500 hover:text-red-600'>
+            <MdDelete className='h-6 w-6' />
+          </button>
+          )}
+          </div>
       </li>
     </>
   )
