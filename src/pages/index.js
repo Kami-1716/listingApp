@@ -6,6 +6,7 @@ import ForgotPassword from "./ForgotPassword";
 import Profile from "./Profile";
 import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
+import ViewListing from "./ViewListing";
 
 
-export { Home, Offers, SignIn, SignUp, ForgotPassword, Profile, CreateListing, UpdateListing };
+export { Home, Offers, SignIn, SignUp, ForgotPassword, Profile, CreateListing, UpdateListing, ViewListing };
