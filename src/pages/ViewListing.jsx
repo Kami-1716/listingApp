@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { Spinner } from "../components";
+import { Contact, Spinner } from "../components";
 import { toast } from "react-toastify";
 import { Navigation, Pagination, EffectFade, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,6 +13,7 @@ import { IoIosBed } from "react-icons/io";
 import { MdOutlineMeetingRoom } from "react-icons/md";
 import { RiParkingBoxFill } from "react-icons/ri";
 import { FaChair } from "react-icons/fa";
+import { getAuth } from "firebase/auth";
 
 const ViewListing = () => {
   const params = useParams();
@@ -20,9 +21,12 @@ const ViewListing = () => {
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [linkCopied, setLinkCopied] = useState(false)
+  const [contactSeller, setContactSeller] = useState(false)
 
   // SwiperCore.use(Navigation, Pagination, EffectFade, Autoplay);
   //Swiper.use([Navigation, Pagination, Autoplay]);
+
+  const auth = getAuth()
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -84,8 +88,8 @@ const ViewListing = () => {
       </div>
       {linkCopied && <div className="fixed top-[28%] right-[3%] z-20 bg-white cursor-pointer rounded px-2 py-4 font-semibold flex justify-center items-center border-gray-400">Link Copied</div>}
 
-      <div className="max-w-6xl md:mx-auto flex flex-col md:flex-row m-4 p-4 rounded-lg shadow-lg lg:space-x-4">
-        <div className="w-full h-[200px] lg:h-[400px]">
+      <div className="max-w-6xl md:mx-auto flex flex-col md:flex-row m-4 p-4 rounded-lg shadow-lg lg:space-x-4 bg-white">
+        <div className="w-full ">
             <p className="text-2xl font-bold mb-3 text-blue-900">
               {listing.fullName} - ${listing.offer? listing.discountedPrice
             .toString()
@@ -110,7 +114,7 @@ const ViewListing = () => {
             <p className="mb-3 mt-3">
              <span className="font-semibold">Description - </span> {listing.description}
             </p>
-            <ul className="flex items-center space-x-2 lg:space-x-4">
+            <ul className="flex items-center space-x-2 lg:space-x-4 mb-6">
               <li className="flex items-center whitespace-nowrap">
                 <IoIosBed className="inline-block mr-1  text-black-600 text-xl" />
                 {listing.beds > 1 ? `${listing.beds} Beds` : '1 Bed'} 
@@ -128,6 +132,18 @@ const ViewListing = () => {
                 {listing.furnished? `Furnished` : 'Not Furnished'}
               </li>
             </ul>
+            {listing.userRef !== auth.currentUser?.uid && !contactSeller &&(
+               <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded mt-6 w-full flex justify-center items-center"
+               onClick={() => setContactSeller(true)}
+               >
+               Contact Seller
+              </button>
+            )}
+            {
+              contactSeller && (
+                <Contact listing={listing} userRef  = {listing.userRef} setContactSeller = {setContactSeller} />
+              )
+            }
         </div>
         <div className="w-full h-[200px] lg:h-[400px] bg-blue-400 z-10 overflow-x-hidden">
 
