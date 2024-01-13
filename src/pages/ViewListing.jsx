@@ -4,16 +4,17 @@ import { db } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Spinner } from "../components";
 import { toast } from "react-toastify";
-
 import { Navigation, Pagination, EffectFade, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
+import { FaShareSquare } from "react-icons/fa";
 
 const ViewListing = () => {
   const params = useParams();
   const { listingId, categoryName } = params;
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [linkCopied, setLinkCopied] = useState(false)
 
   // SwiperCore.use(Navigation, Pagination, EffectFade, Autoplay);
   //Swiper.use([Navigation, Pagination, Autoplay]);
@@ -43,7 +44,7 @@ const ViewListing = () => {
   }
   console.log(listing);
   return (
-    <main>
+    <main className="relative">
       <Swiper
         // install Swiper modules
         modules={[EffectFade, Autoplay, Pagination, Navigation]}
@@ -65,6 +66,18 @@ const ViewListing = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+      <div className="fixed top-[18%] right-[3%] z-20 bg-white cursor-pointer h-12 w-12 rounded-full flex justify-center items-center border-gray-400"
+      onClick={() => {
+        navigator.clipboard.writeText(window.location.href)
+        setLinkCopied(true)
+        setTimeout(() => {
+          setLinkCopied(false)
+        }, 2000);
+      }}
+      >
+              <FaShareSquare className="text-2xl text-black" />
+      </div>
+      {linkCopied && <div className="fixed top-[28%] right-[3%] z-20 bg-white cursor-pointer rounded px-2 py-4 font-semibold flex justify-center items-center border-gray-400">Link Copied</div>}
     </main>
   );
 };
