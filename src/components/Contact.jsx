@@ -53,15 +53,12 @@ const Contact = ({ listing, userRef, setContactSeller }) => {
         value={message}
         onChange={(e) => setBuyerInfo({...buyerInfo, message: e.target.value})}
         />
-        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded mt-6 w-full flex justify-center items-center"
-        href={`mailto:${sellerInfo?.email}?subject=Interested in ${listing?.fullName}&body=${message}`}
-          onClick={(e) => {
-            e.preventDefault()
-            console.log(buyerInfo)
-            setContactSeller(false)}}
-        >
-          Send Message
-        </button>
+        <a href={`mailto:${sellerInfo?.email}?subject=Interested in ${listing?.fullName}&body=${message}`}>
+            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded mt-6 w-full flex justify-center items-center"
+            >
+              Send Message
+            </button>
+        </a>
       </div>
     </>
   )
