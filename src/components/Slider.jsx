@@ -53,6 +53,7 @@ const Slider = () => {
         >
           {listings.map(({ data, id }) => (
             <SwiperSlide
+              className='cursor-pointer'
               key={id}
               onClick={() => navigate(`/category/${data.type}/${id}`)}
             >
