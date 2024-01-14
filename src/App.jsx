@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CreateListing, ForgotPassword, Home, Offers, Profile, SignIn, SignUp, UpdateListing, ViewListing } from "./pages";
+import { Category, CreateListing, ForgotPassword, Home, Offers, Profile, SignIn, SignUp, UpdateListing, ViewListing } from "./pages";
 import { Footer, Header, PrivateRoute } from "./components";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,6 +17,7 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/offers" element={<Offers />} />
+          <Route path="/category/:categoryName" element={<Category />} />
           <Route path="/category/:categoryName/:listingId" element={<ViewListing />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/create-listing" element={<PrivateRoute />} >
